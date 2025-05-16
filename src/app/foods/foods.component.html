@@ -9,29 +9,26 @@
                  diameter="20">
     </mat-spinner>
   </mat-form-field>
-
   <mat-accordion>
     <mat-expansion-panel *ngFor="let food of foods; let i = index" 
-                        [expanded]="i === 0">
+                        [expanded]="i === 0"
+                        (afterExpand)="panelExpanded(i)">
       <mat-expansion-panel-header>
         <mat-panel-title>
           {{food.description}}
         </mat-panel-title>
-        <mat-panel-description>
-          {{food.foodCategory}}
-        </mat-panel-description>
       </mat-expansion-panel-header>
 
       <div class="panel-content">
         <div class="main-nutrients">
           <div class="header-actions">
-            <button mat-button color="primary" 
-                    (click)="showAllNutrients(food, i)"
-                    class="all-nutrients-btn">
+            <button mat-button 
+                    class="all-nutrients-btn"
+                    (click)="showAllNutrients(food, i)">
               All Nutrients
             </button>
           </div>
-          
+
           <table mat-table [dataSource]="getNutrients(food)" class="nutrient-table">
             <ng-container matColumnDef="label">
               <th mat-header-cell *matHeaderCellDef> Nutrient </th>
@@ -51,13 +48,25 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table>
+
+          <!-- Separate footer for per 100g label -->
+          <div class="footer-label">
+            <mat-label *ngIf="selectedFoodIndex === i" class="per-100g-label">
+              per 100g
+            </mat-label>
+          </div>
         </div>
 
         <div class="all-nutrients" *ngIf="selectedFoodIndex === i && showingAllNutrients">
           <mat-list>
             <mat-list-item *ngFor="let nutrient of food.foodNutrients">
-              <span class="nutrient-name">{{nutrient.nutrientName}}</span>
-              <span class="nutrient-value">{{nutrient.value}} {{nutrient.unitName}}</span>
+              <div class="nutrient-row">
+                <div class="nutrient-name">{{nutrient.nutrientName}}</div>
+                <div class="nutrient-value-container">
+                  <span class="value">{{nutrient.value}}</span>
+                  <span class="unit">{{nutrient.unitName}}</span>
+                </div>
+              </div>
             </mat-list-item>
           </mat-list>
         </div>

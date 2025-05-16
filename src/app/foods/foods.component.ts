@@ -20,9 +20,12 @@ export class FoodsComponent implements OnInit {
   foods: Food[] = [];
   isLoading = false;
   displayedColumns: string[] = ['label', 'value', 'unit'];
-  selectedFoodIndex: number | null = null;
+  selectedFoodIndex: number | null =0;
   showingAllNutrients = false;
 
+  panelExpanded(index: number) {
+    this.selectedFoodIndex = index;
+  }
   constructor(private foodsService: FoodsApiService) {}
 
   ngOnInit() {
@@ -118,7 +121,12 @@ export class FoodsComponent implements OnInit {
   );
 }
   showAllNutrients(food: Food, index: number) {
-    this.selectedFoodIndex = this.selectedFoodIndex === index ? null : index;
-    this.showingAllNutrients = !this.showingAllNutrients;
+    if (this.selectedFoodIndex === index) {
+      this.showingAllNutrients = !this.showingAllNutrients;
+    } else {
+      // If clicking different panel, select it and show nutrients
+      this.selectedFoodIndex = index;
+      this.showingAllNutrients = true;
+    }
   }
 }
