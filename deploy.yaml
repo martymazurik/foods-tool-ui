@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      lb: web
+  template:
+    metadata:
+      labels:
+        lb: web
+        app: frontend
+    spec:
+      containers: 
+      - name: ng10e2e
+        image: mtmazurik/ng10e2e-ui
+        ports:
+        - containerPort: 443
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app: frontend
+  ports:
+  - port: 80
+    name: http
+  - port: 443
+    name: https
+
+
+
+    

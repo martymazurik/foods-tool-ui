@@ -1,0 +1,67 @@
+<div class="foods-container">
+  <mat-form-field appearance="fill" class="search-field">
+    <mat-label>Search Foods</mat-label>
+    <input matInput 
+           [formControl]="searchControl" 
+           placeholder="Enter food name...">
+    <mat-spinner *ngIf="isLoading" 
+                 matSuffix 
+                 diameter="20">
+    </mat-spinner>
+  </mat-form-field>
+
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let food of foods; let i = index" 
+                        [expanded]="i === 0">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{food.description}}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{food.foodCategory}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div class="panel-content">
+        <div class="main-nutrients">
+          <div class="header-actions">
+            <button mat-button color="primary" 
+                    (click)="showAllNutrients(food, i)"
+                    class="all-nutrients-btn">
+              All Nutrients
+            </button>
+          </div>
+          
+          <table mat-table [dataSource]="getNutrients(food)" class="nutrient-table">
+            <ng-container matColumnDef="label">
+              <th mat-header-cell *matHeaderCellDef> Nutrient </th>
+              <td mat-cell *matCellDef="let nutrient"> {{nutrient.label}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="value">
+              <th mat-header-cell *matHeaderCellDef> Value </th>
+              <td mat-cell *matCellDef="let nutrient"> {{nutrient.value}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="unit">
+              <th mat-header-cell *matHeaderCellDef> Unit </th>
+              <td mat-cell *matCellDef="let nutrient"> {{nutrient.unit}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+
+        <div class="all-nutrients" *ngIf="selectedFoodIndex === i && showingAllNutrients">
+          <mat-list>
+            <mat-list-item *ngFor="let nutrient of food.foodNutrients">
+              <span class="nutrient-name">{{nutrient.nutrientName}}</span>
+              <span class="nutrient-value">{{nutrient.value}} {{nutrient.unitName}}</span>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

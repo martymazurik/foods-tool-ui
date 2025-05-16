@@ -1,0 +1,33 @@
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+html, body { 
+  height: 100%; 
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.toolbar {
+  position: relative;
+  z-index: 10;  // Higher z-index for toolbar
+}
+
+.content {
+  position: relative;
+  z-index: 5;   // Content above clouds but below toolbar
+  background: white;
+}
+
+#clouds {
+  z-index: 1;   // Lowest z-index for background clouds
+  position: relative;
+}
+
+.card {
+  position: relative;
+  z-index: 6;   // Cards above regular content
+}
+
+.card-small {
+  min-height: auto !important;
+  height: auto !important;
+}

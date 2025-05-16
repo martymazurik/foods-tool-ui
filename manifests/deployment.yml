@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: "akstemporary-238d"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: "akstemporary-238d"
+  template:
+    metadata:
+      labels:
+        app: "akstemporary-238d"
+    spec:
+      containers:
+        - name: "akstemporary-238d"
+          image: "registrycca.azurecr.io/akstemporary"
+          ports:
+          - containerPort: 80
