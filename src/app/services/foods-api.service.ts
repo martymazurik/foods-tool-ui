@@ -7,7 +7,7 @@ import { Food } from '../models/food.model';
   providedIn: 'root'
 })
 export class FoodsApiService {
-  private baseUrl = 'https://foodsapi.cloudcomputingassociates.net:8080/api/v1';
+  private baseUrl = 'https://foodsapi.cloudcomputingassociates.net/api/v1';
 
   constructor(private http: HttpClient) { }
 
