@@ -147,9 +147,19 @@ $tablet-breakpoint: 1024px;
 }
 
 .all-nutrients-btn {
-  @media (max-width: $mobile-breakpoint) {
-    width: 100%;
-    margin-bottom: 10px;
+  
+  .button-text {
+    display: inline;
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  .button-text-mobile {
+    display: none;
+    @media (max-width: 768px) {
+      display: inline;
+    }
   }
 }
 
