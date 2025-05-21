@@ -27,8 +27,8 @@
             <button mat-button 
                     class="all-nutrients-btn"
                     (click)="showAllNutrients(food, i)">
-                <span class="button-text-desktop">All Nutrients</span>
-                <span class="button-text-mobile">All</span>
+                <span fxHide.lt-md>>All Nutrients</span>
+                <span fxShow.lt-md>All</span>
             </button>
           </div>
 

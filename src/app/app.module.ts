@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { environment } from '../environments/environment.prod';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 // Material Imports
 import { MatInputModule } from '@angular/material/input';
@@ -33,6 +34,7 @@ import { FoodsApiService } from './services/foods-api.service';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,
