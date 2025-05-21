@@ -16,6 +16,10 @@
 # Only exists if Bazel was run
 /bazel-out
 
+#environment vars
+/src/environments/environment.local.ts
+/src/environments/environment.prod.ts
+
 # dependencies
 /node_modules
 
@@ -56,3 +60,5 @@ Thumbs.db
 ~$10E2E Project Developer-Notes.docx
 ~WRL3912.tmp
 .vscode/settings.json
+src/environments/environment.prod.ts
+src/environments/environment.prod.ts

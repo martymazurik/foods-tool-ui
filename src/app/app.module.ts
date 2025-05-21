@@ -4,6 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { environment } from '../environments/environment.prod';
 
 // Material Imports
 import { MatInputModule } from '@angular/material/input';
@@ -43,8 +44,11 @@ import { FoodsApiService } from './services/foods-api.service';
     MatButtonModule,
     MatListModule,
     AuthModule.forRoot({
-      domain: 'dev-d71v6o5mhyfosv50.us.auth0.com',
-      clientId: 'EyUz3CunpJtd4ZRsn0XyUdR07UVi6R1D'
+      domain: environment.auth0.domain,
+      clientId: environment.auth0.clientId,
+      authorizationParams: {
+        redirect_uri: environment.auth0.redirectUri
+      }
     })
   ],
   providers: [FoodsApiService],
