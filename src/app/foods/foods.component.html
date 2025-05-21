@@ -27,8 +27,8 @@
             <button mat-button 
                     class="all-nutrients-btn"
                     (click)="showAllNutrients(food, i)">
-                <span fxHide.lt-md>>All Nutrients</span>
-                <span fxShow.lt-md>All</span>
+                <span fxHide.lt-md>{{selectedFoodIndex === i && showingAllNutrients ? 'Shrink ^' : 'All Nutrients'}}</span>
+                <span fxShow.lt-md>{{selectedFoodIndex === i && showingAllNutrients ? 'Shrink ^' : 'Other'}}</span>
             </button>
           </div>
 
