@@ -7,7 +7,7 @@
   />
   <span>WELCOME!</span>
   <div class="spacer"></div>
-  <login></login>
+  <app-login></app-login>
   <!-- Twitter logo section -->
 </div>
 
@@ -25,7 +25,7 @@
 
   <!-- Conditional rendering of foods component -->
   <ng-container *ngIf="auth.isAuthenticated$ | async; else notAuthenticated">
-    <foods></foods>
+    <app-foods></app-foods>
   </ng-container>
 
   <ng-template #notAuthenticated>
