@@ -14,8 +14,8 @@ declare var process: {
 export const environment = {
   production: false,
   auth0: {
-    domain: process.env['AUTH0_DOMAIN'] ?? '',
-    clientId: process.env['AUTH0_CLIENT_ID'] ?? '',
+    domain: '___AUTH0_DOMAIN___',    // Placeholder
+    clientId: '___AUTH0_CLIENT_ID___', // Placeholder
     redirectUri: window.location.origin,
   }
 };
