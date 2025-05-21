@@ -1,7 +1,15 @@
+// Add these variables at the top
+$mobile-breakpoint: 768px;
+$tablet-breakpoint: 1024px;
+
 .foods-container {
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+
+  @media (max-width: $mobile-breakpoint) {
+    padding: 10px;
+  }
 
   .search-field {
     width: 100%;
@@ -13,6 +21,10 @@
   display: flex;
   gap: 20px;
 
+  @media (max-width: $tablet-breakpoint) {
+    flex-direction: column;
+  }
+
   .main-nutrients {
     flex: 1;
 
@@ -20,11 +32,24 @@
       display: flex;
       justify-content: flex-end;
       margin-bottom: 10px;
+
+      @media (max-width: $mobile-breakpoint) {
+        flex-direction: column;
+        align-items: stretch;
+      }
     }
 
     .nutrient-table {
       width: 100%;
       margin-top: 16px;
+
+      @media (max-width: $mobile-breakpoint) {
+        font-size: 14px;
+        
+        th, td {
+          padding: 8px 4px;
+        }
+      }
 
       th, td {
         &:last-child {
@@ -35,6 +60,10 @@
       td {
         font-weight: 500;
         font-size: 15px;
+
+        @media (max-width: $mobile-breakpoint) {
+          font-size: 14px;
+        }
       }
     }
 
@@ -44,57 +73,73 @@
       margin-top: 16px;
       padding-right: 12px;
 
-      .per-100g-label {
-        color: rgba(0, 0, 0, 0.6);
-        font-style: italic;
+      @media (max-width: $mobile-breakpoint) {
+        padding-right: 8px;
+        font-size: 12px;
       }
     }
   }
 
-    .all-nutrients {
+  .all-nutrients {
     flex: 1;
     max-width: 400px;
     border-left: 1px solid #ddd;
     padding-left: 20px;
 
-    .mat-mdc-list-item {
-      height: auto !important;
-      margin-bottom: 0px;    // Reduced from 2px
-      font-size: 13px;       // Smaller font size
+    @media (max-width: $tablet-breakpoint) {
+      max-width: none;
+      border-left: none;
+      border-top: 1px solid #ddd;
+      padding-left: 0;
+      padding-top: 20px;
+      margin-top: 20px;
     }
 
     .nutrient-row {
       display: grid;
       grid-template-columns: 250px 150px;
       width: 100%;
-      gap: 10px;            // Reduced from 20px
+      gap: 10px;
       align-items: center;
-      padding: 2px 0;       // Reduced from 4px
+      padding: 2px 0;
+
+      @media (max-width: $mobile-breakpoint) {
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+      }
 
       .nutrient-name {
-        font-weight: normal;
-        color: rgba(0, 0, 0, 0.87);
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        font-size: 13px;    // Smaller font size
+        font-size: 13px;
+        
+        @media (max-width: $mobile-breakpoint) {
+          font-size: 12px;
+        }
       }
 
       .nutrient-value-container {
         display: flex;
-        gap: 4px;           // Reduced from 8px
+        gap: 4px;
         align-items: center;
 
+        @media (max-width: $mobile-breakpoint) {
+          gap: 2px;
+        }
+
         .value {
-          font-weight: normal;
-          min-width: 50px;
-          text-align: right;
-          font-size: 13px;  // Smaller font size
+          font-size: 13px;
+          
+          @media (max-width: $mobile-breakpoint) {
+            font-size: 12px;
+            min-width: 40px;
+          }
         }
 
         .unit {
-          color: rgba(0, 0, 0, 0.6);
-          font-size: 12px;  // Even smaller for units
+          font-size: 12px;
+          
+          @media (max-width: $mobile-breakpoint) {
+            font-size: 11px;
+          }
         }
       }
     }
@@ -102,41 +147,24 @@
 }
 
 .all-nutrients-btn {
-  position: relative;
-  background: #1976d2;
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1),
-              0 1px 3px rgba(0,0,0,0.08);
-  transform: translateY(0);
-  transition: all 0.2s ease;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 7px 14px rgba(0,0,0,0.1),
-                0 3px 6px rgba(0,0,0,0.08);
-  }
-
-  &:active {
-    transform: translateY(1px);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1),
-                0 1px 2px rgba(0,0,0,0.08);
+  @media (max-width: $mobile-breakpoint) {
+    width: 100%;
+    margin-bottom: 10px;
   }
 }
 
 ::ng-deep .mat-expansion-panel-header {
-  padding: 0 16px;
+  @media (max-width: $mobile-breakpoint) {
+    padding: 0 12px;
 
-  .mat-expansion-panel-header-title {
-    font-size: 17px;  // Bigger than the 15px of main nutrients
-    font-weight: 600; // Bolder than the 500 of main nutrients
-    color: rgba(0, 0, 0, 0.87);
+    .mat-expansion-panel-header-title {
+      font-size: 15px;
+    }
   }
-
 }
 
 ::ng-deep .mat-expansion-panel-body {
-  padding: 0 16px 16px !important;
+  @media (max-width: $mobile-breakpoint) {
+    padding: 0 12px 12px !important;
+  }
 }
