@@ -30,9 +30,10 @@
   </div>
 
   <!-- Conditional rendering of foods component -->
-  <ng-container *ngIf="auth.isAuthenticated$ | async; else notAuthenticated">
+  <!-- <ng-container *ngIf="auth.isAuthenticated$ | async; else notAuthenticated"> 
     <app-foods></app-foods>
-  </ng-container>
+  </ng-container> -->
+  <app-foods></app-foods>
 
   <ng-template #notAuthenticated>
     <div class="auth-message">

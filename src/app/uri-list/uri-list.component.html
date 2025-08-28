@@ -1,0 +1,58 @@
+<!-- File: src/app/uri-list/uri-list.component.html -->
+<div class="uri-lists-container" *ngIf="hasLinks()">
+  <!-- Nutrition Facts Links -->
+  <mat-card class="uri-card">
+    <mat-card-header>
+      <mat-card-title>Nutrition Facts Links</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list class="uri-list" *ngIf="nutritionSiteCandidates?.length; else noNutritionLinks">
+        <mat-list-item 
+          *ngFor="let url of nutritionSiteCandidates.slice(0, 10)" 
+          class="uri-item">
+          <mat-icon matListItemIcon>link</mat-icon>
+          <a 
+            [href]="url" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="uri-link"
+            [matTooltip]="url"
+            matTooltipPosition="above">
+            {{ truncateUrl(url) }}
+          </a>
+        </mat-list-item>
+      </mat-list>
+      <ng-template #noNutritionLinks>
+        <p class="no-links">No nutrition fact links available</p>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Product Image Links -->
+  <mat-card class="uri-card">
+    <mat-card-header>
+      <mat-card-title>Product Image Links</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list class="uri-list" *ngIf="productImageSiteCandidates?.length; else noImageLinks">
+        <mat-list-item 
+          *ngFor="let url of productImageSiteCandidates.slice(0, 10)" 
+          class="uri-item">
+          <mat-icon matListItemIcon>image</mat-icon>
+          <a 
+            [href]="url" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="uri-link"
+            [matTooltip]="url"
+            matTooltipPosition="above">
+            {{ truncateUrl(url) }}
+          </a>
+        </mat-list-item>
+      </mat-list>
+      <ng-template #noImageLinks>
+        <p class="no-links">No product image links available</p>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+</div>

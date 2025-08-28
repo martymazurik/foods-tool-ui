@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Food } from '../models/food.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +10,7 @@ export class FoodsApiService {
 
   constructor(private http: HttpClient) { }
 
-  searchFoods(query: string): Observable<Food[]> {
-    return this.http.get<Food[]>(`${this.baseUrl}/foods/search?query=${encodeURIComponent(query)}`);
+  searchFoods(query: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/foods/search?query=${encodeURIComponent(query)}`);
   }
 }
