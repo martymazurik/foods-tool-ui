@@ -17,14 +17,13 @@ interface SimplifiedNutrient {
 })
 export class FoodsComponent implements OnInit {
   searchControl = new FormControl('');
-  foods: any[] = []; // CHANGED: Food[] to any[]
+  currentFood: any = null; // CHANGED: from foods array to single currentFood
   isLoading = false;
   displayedColumns: string[] = ['label', 'value', 'unit'];
-  selectedFoodIndex: number | null = 0;
-  showingAllNutrients = false;
+  showingAllNutrients = false; // REMOVED: selectedFoodIndex since we only have one food
 
   panelExpanded(index: number) {
-    this.selectedFoodIndex = index;
+    // REMOVED: Not needed for single food display
   }
 
   constructor(private foodsService: FoodsApiService) {}
@@ -39,8 +38,8 @@ export class FoodsComponent implements OnInit {
       })
     ).subscribe({
       next: (results) => {
-        // Take only first two results to avoid repetition
-        this.foods = results.slice(0, 2);
+        // Store single food result
+        this.currentFood = results;
         this.isLoading = false;
       },
       error: () => {
@@ -123,19 +122,13 @@ export class FoodsComponent implements OnInit {
     );
   }
 
-  // UNCHANGED - your existing showAllNutrients method
-  showAllNutrients(food: any, index: number) { // CHANGED: Food to any
-    if (this.selectedFoodIndex === index) {
-      this.showingAllNutrients = !this.showingAllNutrients;
-    } else {
-      // If clicking different panel, select it and show nutrients
-      this.selectedFoodIndex = index;
-      this.showingAllNutrients = true;
-    }
+  // SIMPLIFIED - no index needed for single food
+  showAllNutrients() {
+    this.showingAllNutrients = !this.showingAllNutrients;
   }
 
   // ADDED: Helper method for URI list component
   hasBrandInfo(food: any): boolean {
-    return !!(food?.brandInfo?.nutritionSiteCandidates?.length || food?.brandInfo?.productImageSiteCandidates?.length);
+    return this.foodsService.hasBrandLinks(food);
   }
 }

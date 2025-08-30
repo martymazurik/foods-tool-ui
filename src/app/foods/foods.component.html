@@ -10,31 +10,37 @@
     </mat-spinner>
   </mat-form-field>
 
-  <mat-accordion>
-    <mat-expansion-panel *ngFor="let food of foods; let i = index" 
-                        [expanded]="i === 0"
-                        (afterExpand)="panelExpanded(i)"
+  <!-- Single food result - no ngFor needed -->
+  <mat-accordion *ngIf="currentFood">
+    <mat-expansion-panel [expanded]="true"
                         class="food-panel">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          {{food.description}}
+          {{currentFood.description}}
         </mat-panel-title>
       </mat-expansion-panel-header>
 
       <div class="panel-content">
+        <!-- URI List Component -->
+        <app-uri-list 
+          *ngIf="hasBrandInfo(currentFood)"
+          [nutritionSiteCandidates]="currentFood.brandInfo?.nutritionSiteCandidates || []"
+          [productImageSiteCandidates]="currentFood.brandInfo?.productImageSiteCandidates || []">
+        </app-uri-list>
+
         <div class="main-nutrients">
           <div class="header-actions">
             <button mat-button 
                     class="all-nutrients-btn"
-                    (click)="showAllNutrients(food, i)">
-                <span fxHide.lt-md>{{selectedFoodIndex === i && showingAllNutrients ? 'Shrink ^' : 'Show All Nutrients'}}</span>
-                <span fxShow.lt-md>{{selectedFoodIndex === i && showingAllNutrients ? 'Shrink ^' : 'Show all'}}</span>
+                    (click)="showAllNutrients()">
+                <span fxHide.lt-md>{{showingAllNutrients ? 'Shrink ^' : 'Show All Nutrients'}}</span>
+                <span fxShow.lt-md>{{showingAllNutrients ? 'Shrink ^' : 'Show all'}}</span>
             </button>
           </div>
 
           <!-- Responsive table wrapper -->
           <div class="table-responsive">
-            <table mat-table [dataSource]="getNutrients(food)" class="nutrient-table">
+            <table mat-table [dataSource]="getNutrients(currentFood)" class="nutrient-table">
               <ng-container matColumnDef="label">
                 <th mat-header-cell *matHeaderCellDef> Nutrient </th>
                 <td mat-cell *matCellDef="let nutrient"> {{nutrient.label}} </td>
@@ -56,7 +62,7 @@
           </div>
 
           <div class="footer-label">
-            <mat-label *ngIf="selectedFoodIndex === i" class="per-100g-label">
+            <mat-label class="per-100g-label">
               per 100g
             </mat-label>
           </div>
@@ -64,10 +70,10 @@
 
         <!-- Mobile-optimized all nutrients view -->
         <div class="all-nutrients" 
-             *ngIf="selectedFoodIndex === i && showingAllNutrients"
+             *ngIf="showingAllNutrients"
              [class.mobile-view]="isMobileView">
           <mat-list>
-            <mat-list-item *ngFor="let nutrient of food.foodNutrients">
+            <mat-list-item *ngFor="let nutrient of currentFood.foodNutrients">
               <div class="nutrient-row">
                 <div class="nutrient-name">{{nutrient.nutrientName}}</div>
                 <div class="nutrient-value-container">
