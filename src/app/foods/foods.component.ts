@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { FoodsApiService } from '../services/foods-api.service';
-// REMOVED: import { Food, FoodNutrient } from '../models/food.model';
 import { debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operators';
+import { UriListComponent } from '../uri-list/uri-list.component';
 
 interface SimplifiedNutrient {
   label: string;
@@ -42,6 +42,14 @@ export class FoodsComponent implements OnInit {
     this.foodsService.searchFoods(query).subscribe({
       next: (results) => {
         this.currentFood = results;
+        
+        // Debug logging
+        console.log('Full API response:', results);
+        console.log('brandInfo exists:', !!results.brandInfo);
+        console.log('nutritionSiteCandidates:', results.brandInfo?.nutritionSiteCandidates);
+        console.log('productImageSiteCandidates:', results.brandInfo?.productImageSiteCandidates);
+        console.log('hasBrandInfo result:', this.hasBrandInfo(results));
+        
         this.isLoading = false;
       },
       error: () => {
