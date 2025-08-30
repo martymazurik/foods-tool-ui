@@ -10,7 +10,14 @@ export class FoodsApiService {
 
   constructor(private http: HttpClient) { }
 
-  searchFoods(query: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/foods/search?query=${encodeURIComponent(query)}`);
+  searchFoods(query: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/foods/search?query=${encodeURIComponent(query)}`);
+  }
+
+  hasBrandLinks(food: any): boolean {
+    return !!(
+      food?.brandInfo?.nutritionSiteCandidates?.length || 
+      food?.brandInfo?.productImageSiteCandidates?.length
+    );
   }
 }
