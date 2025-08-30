@@ -29,16 +29,18 @@ export class FoodsComponent implements OnInit {
   constructor(private foodsService: FoodsApiService) {}
 
   ngOnInit() {
-    this.searchControl.valueChanges.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap(query => {
-        this.isLoading = true;
-        return query ? this.foodsService.searchFoods(query) : [];
-      })
-    ).subscribe({
+    // Remove automatic API calls on typing
+  }
+
+  performSearch() {
+    const query = this.searchControl.value?.trim();
+    if (!query || query.length < 2) {
+      return;
+    }
+
+    this.isLoading = true;
+    this.foodsService.searchFoods(query).subscribe({
       next: (results) => {
-        // Store single food result
         this.currentFood = results;
         this.isLoading = false;
       },
