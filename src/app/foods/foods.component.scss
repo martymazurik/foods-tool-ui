@@ -19,130 +19,142 @@ $tablet-breakpoint: 1024px;
 
 .panel-content {
   display: flex;
+  flex-direction: column; // Changed to column to stack everything vertically
   gap: 20px;
 
-  @media (max-width: $tablet-breakpoint) {
-    flex-direction: column;
-  }
+  .nutrition-section {
+    display: flex;
+    gap: 20px;
 
-  .main-nutrients {
-    flex: 1;
-
-    .header-actions {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 10px;
-
-      @media (max-width: $mobile-breakpoint) {
-        flex-direction: column;
-        align-items: stretch;
-      }
+    @media (max-width: $tablet-breakpoint) {
+      flex-direction: column;
     }
 
-    .nutrient-table {
-      width: 100%;
-      margin-top: 16px;
+    .main-nutrients {
+      flex: 1;
 
-      @media (max-width: $mobile-breakpoint) {
-        font-size: 14px;
-        
-        th, td {
-          padding: 8px 4px;
+      .header-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 10px;
+
+        @media (max-width: $mobile-breakpoint) {
+          flex-direction: column;
+          align-items: stretch;
         }
       }
 
-      th, td {
-        &:last-child {
-          padding-right: 20px;
-        }
-      }
-
-      td {
-        font-weight: 500;
-        font-size: 15px;
+      .nutrient-table {
+        width: 100%;
+        margin-top: 16px;
 
         @media (max-width: $mobile-breakpoint) {
           font-size: 14px;
+          
+          th, td {
+            padding: 8px 4px;
+          }
+        }
+
+        th, td {
+          &:last-child {
+            padding-right: 20px;
+          }
+        }
+
+        td {
+          font-weight: 500;
+          font-size: 15px;
+
+          @media (max-width: $mobile-breakpoint) {
+            font-size: 14px;
+          }
         }
       }
-    }
 
-    .footer-label {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 16px;
-      padding-right: 12px;
+      .footer-label {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 16px;
+        padding-right: 12px;
 
-      @media (max-width: $mobile-breakpoint) {
-        padding-right: 8px;
-        font-size: 12px;
-      }
-    }
-  }
-
-  .all-nutrients {
-    flex: 1;
-    max-width: 400px;
-    border-left: 1px solid #ddd;
-    padding-left: 20px;
-
-    @media (max-width: $tablet-breakpoint) {
-      max-width: none;
-      border-left: none;
-      border-top: 1px solid #ddd;
-      padding-left: 0;
-      padding-top: 20px;
-      margin-top: 20px;
-    }
-
-    .nutrient-row {
-      display: grid;
-      grid-template-columns: 250px 150px;
-      width: 100%;
-      gap: 10px;
-      align-items: center;
-      padding: 2px 0;
-
-      @media (max-width: $mobile-breakpoint) {
-        grid-template-columns: 1fr auto;
-        gap: 8px;
-      }
-
-      .nutrient-name {
-        font-size: 13px;
-        
         @media (max-width: $mobile-breakpoint) {
+          padding-right: 8px;
           font-size: 12px;
         }
       }
+    }
 
-      .nutrient-value-container {
-        display: flex;
-        gap: 4px;
+    .all-nutrients {
+      flex: 1;
+      max-width: 400px;
+      border-left: 1px solid #ddd;
+      padding-left: 20px;
+
+      @media (max-width: $tablet-breakpoint) {
+        max-width: none;
+        border-left: none;
+        border-top: 1px solid #ddd;
+        padding-left: 0;
+        padding-top: 20px;
+        margin-top: 20px;
+      }
+
+      .nutrient-row {
+        display: grid;
+        grid-template-columns: 250px 150px;
+        width: 100%;
+        gap: 10px;
         align-items: center;
+        padding: 2px 0;
 
         @media (max-width: $mobile-breakpoint) {
-          gap: 2px;
+          grid-template-columns: 1fr auto;
+          gap: 8px;
         }
 
-        .value {
+        .nutrient-name {
           font-size: 13px;
           
           @media (max-width: $mobile-breakpoint) {
             font-size: 12px;
-            min-width: 40px;
           }
         }
 
-        .unit {
-          font-size: 12px;
-          
+        .nutrient-value-container {
+          display: flex;
+          gap: 4px;
+          align-items: center;
+
           @media (max-width: $mobile-breakpoint) {
-            font-size: 11px;
+            gap: 2px;
+          }
+
+          .value {
+            font-size: 13px;
+            
+            @media (max-width: $mobile-breakpoint) {
+              font-size: 12px;
+              min-width: 40px;
+            }
+          }
+
+          .unit {
+            font-size: 12px;
+            
+            @media (max-width: $mobile-breakpoint) {
+              font-size: 11px;
+            }
           }
         }
       }
     }
+  }
+
+  // URI list will appear here at the bottom, full width
+  app-uri-list {
+    width: 100%;
+    margin-top: 20px;
   }
 }
 
