@@ -22,13 +22,6 @@
       </mat-expansion-panel-header>
 
       <div class="panel-content">
-        <!-- URI List Component -->
-        <app-uri-list 
-          *ngIf="hasBrandInfo(currentFood)"
-          [nutritionSiteCandidates]="currentFood.brandInfo?.nutritionSiteCandidates || []"
-          [productImageSiteCandidates]="currentFood.brandInfo?.productImageSiteCandidates || []">
-        </app-uri-list>
-
         <div class="main-nutrients">
           <div class="header-actions">
             <button mat-button 
@@ -244,6 +237,13 @@
             </mat-list-item>
           </mat-list>
         </div>
+
+        <!-- URI List Component - Moved to bottom -->
+        <app-uri-list 
+          *ngIf="hasBrandInfo(currentFood)"
+          [nutritionSiteCandidates]="currentFood.brandInfo?.nutritionSiteCandidates || []"
+          [productImageSiteCandidates]="currentFood.brandInfo?.productImageSiteCandidates || []">
+        </app-uri-list>
       </div>
     </mat-expansion-panel>
   </mat-accordion>
