@@ -72,13 +72,172 @@
         <div class="all-nutrients" 
              *ngIf="showingAllNutrients"
              [class.mobile-view]="isMobileView">
-          <mat-list>
-            <mat-list-item *ngFor="let nutrient of currentFood.foodNutrients">
+          <mat-list *ngIf="currentFood.nutritionFacts">
+            <mat-list-item>
               <div class="nutrient-row">
-                <div class="nutrient-name">{{nutrient.nutrientName}}</div>
+                <div class="nutrient-name">Food Name</div>
                 <div class="nutrient-value-container">
-                  <span class="value">{{nutrient.value}}</span>
-                  <span class="unit">{{nutrient.unitName}}</span>
+                  <span class="value">{{currentFood.nutritionFacts.foodName}}</span>
+                </div>
+              </div>
+            </mat-list-item>
+            <mat-list-item>
+              <div class="nutrient-row">
+                <div class="nutrient-name">Serving Size</div>
+                <div class="nutrient-value-container">
+                  <span class="value">{{currentFood.nutritionFacts.servingSizeHousehold}}</span>
+                </div>
+              </div>
+            </mat-list-item>
+            <mat-list-item>
+              <div class="nutrient-row">
+                <div class="nutrient-name">Serving Size (g)</div>
+                <div class="nutrient-value-container">
+                  <span class="value">{{currentFood.nutritionFacts.servingSizeG}}</span>
+                  <span class="unit">g</span>
+                </div>
+              </div>
+            </mat-list-item>
+            <mat-list-item>
+              <div class="nutrient-row">
+                <div class="nutrient-name">Servings Per Container</div>
+                <div class="nutrient-value-container">
+                  <span class="value">{{currentFood.nutritionFacts.servingsPerContainer}}</span>
+                </div>
+              </div>
+            </mat-list-item>
+            <mat-list-item>
+              <div class="nutrient-row">
+                <div class="nutrient-name">Calories</div>
+                <div class="nutrient-value-container">
+                  <span class="value">{{currentFood.nutritionFacts.calories}}</span>
+                  <span class="unit">kcal</span>
+                </div>
+              </div>
+            </mat-list-item>
+            <mat-list-item>
+              <div class="nutrient-row">
+                <div class="nutrient-name">Total Fat</div>
+                <div class="nutrient-value-container">
+                  <span class="value">{{currentFood.nutritionFacts.totalFatG}}</span>
+                  <span class="unit">g</span>
+                </div>
+              </div>
+            </mat-list-item>
+            <mat-list-item>
+              <div class="nutrient-row">
+                <div class="nutrient-name">Saturated Fat</div>
+                <div class="nutrient-value-container">
+                  <span class="value">{{currentFood.nutritionFacts.saturatedFatG}}</span>
+                  <span class="unit">g</span>
+                </div>
+              </div>
+            </mat-list-item>
+            <mat-list-item>
+              <div class="nutrient-row">
+                <div class="nutrient-name">Trans Fat</div>
+                <div class="nutrient-value-container">
+                  <span class="value">{{currentFood.nutritionFacts.transFatG}}</span>
+                  <span class="unit">g</span>
+                </div>
+              </div>
+            </mat-list-item>
+            <mat-list-item>
+              <div class="nutrient-row">
+                <div class="nutrient-name">Cholesterol</div>
+                <div class="nutrient-value-container">
+                  <span class="value">{{currentFood.nutritionFacts.cholesterolMG}}</span>
+                  <span class="unit">mg</span>
+                </div>
+              </div>
+            </mat-list-item>
+            <mat-list-item>
+              <div class="nutrient-row">
+                <div class="nutrient-name">Sodium</div>
+                <div class="nutrient-value-container">
+                  <span class="value">{{currentFood.nutritionFacts.sodiumMG}}</span>
+                  <span class="unit">mg</span>
+                </div>
+              </div>
+            </mat-list-item>
+            <mat-list-item>
+              <div class="nutrient-row">
+                <div class="nutrient-name">Total Carbohydrate</div>
+                <div class="nutrient-value-container">
+                  <span class="value">{{currentFood.nutritionFacts.totalCarbohydrateG}}</span>
+                  <span class="unit">g</span>
+                </div>
+              </div>
+            </mat-list-item>
+            <mat-list-item>
+              <div class="nutrient-row">
+                <div class="nutrient-name">Dietary Fiber</div>
+                <div class="nutrient-value-container">
+                  <span class="value">{{currentFood.nutritionFacts.dietaryFiberG}}</span>
+                  <span class="unit">g</span>
+                </div>
+              </div>
+            </mat-list-item>
+            <mat-list-item>
+              <div class="nutrient-row">
+                <div class="nutrient-name">Total Sugars</div>
+                <div class="nutrient-value-container">
+                  <span class="value">{{currentFood.nutritionFacts.totalSugarsG}}</span>
+                  <span class="unit">g</span>
+                </div>
+              </div>
+            </mat-list-item>
+            <mat-list-item>
+              <div class="nutrient-row">
+                <div class="nutrient-name">Added Sugars</div>
+                <div class="nutrient-value-container">
+                  <span class="value">{{currentFood.nutritionFacts.addedSugarsG}}</span>
+                  <span class="unit">g</span>
+                </div>
+              </div>
+            </mat-list-item>
+            <mat-list-item>
+              <div class="nutrient-row">
+                <div class="nutrient-name">Protein</div>
+                <div class="nutrient-value-container">
+                  <span class="value">{{currentFood.nutritionFacts.proteinG}}</span>
+                  <span class="unit">g</span>
+                </div>
+              </div>
+            </mat-list-item>
+            <mat-list-item>
+              <div class="nutrient-row">
+                <div class="nutrient-name">Vitamin D</div>
+                <div class="nutrient-value-container">
+                  <span class="value">{{currentFood.nutritionFacts.vitaminDMcg}}</span>
+                  <span class="unit">mcg</span>
+                </div>
+              </div>
+            </mat-list-item>
+            <mat-list-item>
+              <div class="nutrient-row">
+                <div class="nutrient-name">Calcium</div>
+                <div class="nutrient-value-container">
+                  <span class="value">{{currentFood.nutritionFacts.calciumMG}}</span>
+                  <span class="unit">mg</span>
+                </div>
+              </div>
+            </mat-list-item>
+            <mat-list-item>
+              <div class="nutrient-row">
+                <div class="nutrient-name">Iron</div>
+                <div class="nutrient-value-container">
+                  <span class="value">{{currentFood.nutritionFacts.ironMG}}</span>
+                  <span class="unit">mg</span>
+                </div>
+              </div>
+            </mat-list-item>
+            <mat-list-item>
+              <div class="nutrient-row">
+                <div class="nutrient-name">Potassium</div>
+                <div class="nutrient-value-container">
+                  <span class="value">{{currentFood.nutritionFacts.potassiumMG}}</span>
+                  <span class="unit">mg</span>
                 </div>
               </div>
             </mat-list-item>
