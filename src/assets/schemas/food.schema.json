@@ -25,12 +25,10 @@
       "properties": {
         "foodName": { 
           "type": "string", 
-          "minLength": 1, 
           "description": "Product name / description" 
         },
         "servingSizeHousehold": { 
           "type": "string", 
-          "minLength": 1, 
           "description": "Common household measure, e.g., '2/3 cup', '1 container'" 
         },
         "servingSizeG": { 
@@ -124,7 +122,7 @@
           "description": "List of ingredients from product label"
         },
         "fieldVerificationFlags": {
-          "type": "object",
+          "type": ["object", "null"],
           "additionalProperties": {
             "type": "string",
             "enum": ["unknown", "NutritionixAPI", "ProductLabel", "AIModel"]
@@ -161,6 +159,22 @@
     "verifiedBy": {
       "type": "string",
       "description": "Who/what verified the data"
+    },
+    "foodImage": {
+      "type": "string",
+      "description": "GridFS ObjectID for product image"
+    },
+    "foodImageThumbnail": {
+      "type": "string",
+      "description": "GridFS ObjectID for product image thumbnail"
+    },
+    "nutritionFactsImage": {
+      "type": "string",
+      "description": "GridFS ObjectID for nutrition facts label image"
+    },
+    "nutritionFactsImagePending": {
+      "type": "string",
+      "description": "GridFS ObjectID for nutrition facts image pending processing"
     },
     "nutritionFactsStatus": {
       "type": "string",
@@ -251,7 +265,13 @@
     "foodRequestType",
     "servingSizeMultiplicand",
     "dataSource",
-    "verifiedType"
+    "verifiedType",
+    "verifiedBy",
+    "foodImage",
+    "foodImageThumbnail",
+    "nutritionFactsImage",
+    "nutritionFactsImagePending",
+    "nutritionFactsStatus"
   ],
   "additionalProperties": false
 }
