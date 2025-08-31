@@ -8,7 +8,8 @@ export const environment = {
     domain: '',
     clientId: '',
     redirectUri: window.location.origin,
-  }
+  },
+  apiUrl: 'http://localhost:8080/api/v1'
 };
 
 /*

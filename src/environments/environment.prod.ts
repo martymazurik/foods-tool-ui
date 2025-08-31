@@ -17,7 +17,8 @@ export const environment = {
     domain: '___AUTH0_DOMAIN___',    // Placeholder
     clientId: '___AUTH0_CLIENT_ID___', // Placeholder
     redirectUri: window.location.origin,
-  }
+  },
+  apiUrl: 'https://foodsapi.cloudcomputingassociates.net:4443/api/v1'
 };
 
 /*

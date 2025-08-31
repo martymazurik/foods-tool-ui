@@ -26,12 +26,14 @@ import { LoginComponent } from './login/login.component';
 import { FoodsComponent } from './foods/foods.component';
 import { FoodsApiService } from './services/foods-api.service';
 import { UriListComponent } from './uri-list/uri-list.component';
+import { ImageUploadComponent } from './image-upload/image-upload.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    FoodsComponent
+    FoodsComponent,
+    ImageUploadComponent  // Added ImageUploadComponent
   ],
   imports: [
     BrowserModule,

@@ -151,10 +151,143 @@ $tablet-breakpoint: 1024px;
     }
   }
 
+  // NEW: Image Display Section
+  .image-display-section {
+    width: 100%;
+    margin: 20px 0;
+
+    .section-title {
+      margin: 0 0 16px 0;
+      font-size: 18px;
+      font-weight: 500;
+      color: #333;
+
+      @media (max-width: $mobile-breakpoint) {
+        font-size: 16px;
+        margin-bottom: 12px;
+      }
+    }
+
+    .images-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      
+      @media (max-width: $tablet-breakpoint) {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+    }
+
+    .image-card {
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fafafa;
+
+      .image-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        background: #f5f5f5;
+        border-bottom: 1px solid #e0e0e0;
+
+        @media (max-width: $mobile-breakpoint) {
+          padding: 10px 12px;
+        }
+
+        .image-label {
+          font-weight: 500;
+          font-size: 14px;
+          color: #555;
+
+          @media (max-width: $mobile-breakpoint) {
+            font-size: 13px;
+          }
+        }
+
+        .image-status {
+          padding: 4px 8px;
+          border-radius: 4px;
+          font-size: 12px;
+          font-weight: 500;
+          text-transform: capitalize;
+          background: #e0e0e0;
+          color: #666;
+
+          &.status-completed {
+            background: #e8f5e8;
+            color: #2e7d32;
+          }
+
+          &.status-processing {
+            background: #fff3e0;
+            color: #f57c00;
+          }
+
+          &.status-pending {
+            background: #e3f2fd;
+            color: #1976d2;
+          }
+        }
+      }
+
+      .image-wrapper {
+        padding: 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 200px;
+        background: white;
+
+        @media (max-width: $mobile-breakpoint) {
+          padding: 12px;
+          min-height: 150px;
+        }
+
+        .food-image {
+          max-width: 100%;
+          max-height: 300px;
+          width: auto;
+          height: auto;
+          border-radius: 4px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+          object-fit: contain; // Ensures images scale properly
+
+          @media (max-width: $mobile-breakpoint) {
+            max-height: 200px;
+          }
+
+          // Ensure images don't break layout
+          &.nutrition-image {
+            // Nutrition labels are often tall/narrow
+            max-height: 350px;
+          }
+
+          &.product-image {
+            // Product photos are often wide
+            max-height: 250px;
+          }
+        }
+      }
+    }
+  }
+
   // URI list will appear here at the bottom, full width
   app-uri-list {
     width: 100%;
     margin-top: 20px;
+  }
+
+  // Image upload component will appear after URI list, full width
+  app-image-upload {
+    width: 100%;
+    margin-top: 20px;
+    
+    @media (max-width: $mobile-breakpoint) {
+      margin-top: 16px;
+    }
   }
 }
 

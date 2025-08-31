@@ -238,14 +238,60 @@
             </mat-list>
           </div>
         </div>
-
-        <!-- URI List Component - Now at the bottom, full width -->
-        <app-uri-list 
-          *ngIf="hasBrandInfo(currentFood)"
-          [nutritionSiteCandidates]="currentFood.brandInfo?.nutritionSiteCandidates || []"
-          [productImageSiteCandidates]="currentFood.brandInfo?.productImageSiteCandidates || []">
-        </app-uri-list>
       </div>
+
+      <!-- Image Display Section - Moved outside panel-content -->
+      <div class="image-display-section" *ngIf="currentFood && hasAnyImages()">
+        <h3 class="section-title">Current Images</h3>
+        <div class="images-container">
+          <div class="image-card" *ngIf="hasNutritionImage()">
+            <div class="image-header">
+              <span class="image-label">Nutrition Facts Label</span>
+              <span class="image-status" 
+                    [class.status-completed]="nutritionFactsStatus === 'completed'"
+                    [class.status-processing]="nutritionFactsStatus === 'processing'"
+                    [class.status-pending]="nutritionFactsStatus === 'pending'">
+                {{nutritionFactsStatus || 'uploaded'}}
+              </span>
+            </div>
+            <div class="image-wrapper">
+              <img [src]="nutritionImageUrl()" 
+                   alt="Nutrition Facts Label"
+                   class="food-image nutrition-image"
+                   loading="lazy">
+            </div>
+          </div>
+
+          <div class="image-card" *ngIf="hasProductImage()">
+            <div class="image-header">
+              <span class="image-label">Product Photo</span>
+            </div>
+            <div class="image-wrapper">
+              <img [src]="productImageUrl()" 
+                   alt="Product Photo"
+                   class="food-image product-image"
+                   loading="lazy">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- URI List Component - Now at the bottom, full width -->
+      <app-uri-list 
+        *ngIf="hasBrandInfo(currentFood)"
+        [nutritionSiteCandidates]="currentFood.brandInfo?.nutritionSiteCandidates || []"
+        [productImageSiteCandidates]="currentFood.brandInfo?.productImageSiteCandidates || []">
+      </app-uri-list>
+
+      <!-- Image Upload Component - Stacks below URI list, full width -->
+      <app-image-upload 
+        [foodQuery]="currentFoodQuery"
+        [existingNutritionImageId]="existingNutritionImageId"
+        [existingProductImageId]="existingProductImageId"
+        [nutritionFactsStatus]="nutritionFactsStatus"
+        (imagesUploaded)="onImagesUploaded($event)"
+        (refreshFood)="onRefreshFood()">
+      </app-image-upload>
     </mat-expansion-panel>
   </mat-accordion>
 </div>
