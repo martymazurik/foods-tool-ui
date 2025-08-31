@@ -152,12 +152,13 @@ export class FoodsComponent implements OnInit {
     return this.searchControl.value?.trim() || '';
   }
 
+  // NEW: Getters for image upload component - always return null to keep upload areas empty
   get existingNutritionImageId(): string | null {
-    return this.currentFood?.nutritionFactsImage || null;
+    return null; // Always show empty drag-and-drop area
   }
 
   get existingProductImageId(): string | null {
-    return this.currentFood?.foodImage || null;
+    return null; // Always show empty drag-and-drop area
   }
 
   get nutritionFactsStatus(): string | null {
