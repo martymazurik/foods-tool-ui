@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { FoodsApiService } from '../services/foods-api.service';
 import { debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 
 interface SimplifiedNutrient {
   label: string;
@@ -29,7 +31,10 @@ export class FoodsComponent implements OnInit {
   displayedColumns: string[] = ['label', 'value', 'unit'];
   showingAllNutrients = false;
 
-  constructor(private foodsService: FoodsApiService) {}
+  constructor(
+    private foodsService: FoodsApiService,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit() {
     // Remove automatic API calls on typing
@@ -55,9 +60,42 @@ export class FoodsComponent implements OnInit {
         
         this.isLoading = false;
       },
-      error: () => {
+      error: (error: HttpErrorResponse) => {
         this.isLoading = false;
+        this.handleError(error, 'Failed to search foods');
       }
+    });
+  }
+
+  // NEW: Error handler with toast notifications
+  private handleError(error: HttpErrorResponse, context: string) {
+    let message = '';
+    
+    if (error.status === 0) {
+      message = 'Unable to connect to server. Please check your connection.';
+    } else if (error.status === 404) {
+      message = 'Food not found. Try a different search term.';
+    } else if (error.status === 500) {
+      message = 'Server error occurred. Please try again later.';
+    } else if (error.status >= 400 && error.status < 500) {
+      message = error.error?.message || `Request failed: ${error.statusText}`;
+    } else if (error.status >= 500) {
+      message = 'Server error. Our team has been notified.';
+    } else {
+      message = `${context}: ${error.message}`;
+    }
+
+    this.showErrorToast(message);
+    console.error('API Error:', error);
+  }
+
+  // NEW: Show error toast with close button
+  private showErrorToast(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 10000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      panelClass: ['error-snackbar']
     });
   }
 
@@ -121,7 +159,7 @@ export class FoodsComponent implements OnInit {
     return this.foodsService.hasBrandLinks(food);
   }
 
-  // NEW: Image upload event handlers
+  // UPDATED: Image upload event handlers with error handling
   onImagesUploaded(response: ImageUploadResponse) {
     console.log('Images uploaded successfully:', response);
     // Refresh the food data after upload
@@ -140,8 +178,8 @@ export class FoodsComponent implements OnInit {
           this.currentFood = updatedFood;
           console.log('Food data refreshed:', updatedFood);
         },
-        error: (error) => {
-          console.error('Failed to refresh food data:', error);
+        error: (error: HttpErrorResponse) => {
+          this.handleError(error, 'Failed to refresh food data');
         }
       });
     }
