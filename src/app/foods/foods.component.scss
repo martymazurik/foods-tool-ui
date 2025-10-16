@@ -68,8 +68,18 @@ $tablet-breakpoint: 1024px;
     padding: 0;
 
     mat-list-option {
-      font-size: 14px;
+      font-size: 11px;  // Much smaller font
+      height: 36px;     // Reduced height per item
       border-bottom: 1px solid #f0f0f0;
+      
+      // Remove the checkbox/bullet styling
+      ::ng-deep .mdc-list-item__start {
+        display: none !important;
+      }
+      
+      ::ng-deep .mdc-list-item__content {
+        padding-left: 12px !important;
+      }
       
       &:hover {
         background-color: #f5f5f5;
@@ -96,6 +106,30 @@ $tablet-breakpoint: 1024px;
 
   @media (max-width: $tablet-breakpoint) {
     width: 100%;
+  }
+
+  .food-details {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+
+    @media (max-width: $mobile-breakpoint) {
+      padding: 16px;
+    }
+
+    .food-title {
+      margin: 0 0 20px 0;
+      font-size: 20px;
+      font-weight: 500;
+      color: #333;
+      border-bottom: 2px solid #1976d2;
+      padding-bottom: 10px;
+
+      @media (max-width: $mobile-breakpoint) {
+        font-size: 18px;
+      }
+    }
   }
 }
 

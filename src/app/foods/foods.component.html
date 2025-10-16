@@ -22,34 +22,28 @@
         <mat-list-option *ngFor="let food of foods; let i = index" 
                          [value]="i"
                          [selected]="i === selectedIndex"
-                         [matTooltip]="food.description"
+                         [matTooltip]="food?.description || ''"
                          matTooltipPosition="right">
-          {{ truncateDescription(food.description) }}
+          {{ truncateDescription(food?.description) }}
         </mat-list-option>
       </mat-selection-list>
     </div>
 
     <!-- Right side: Selected food details -->
     <div class="details-panel">
-      <mat-accordion *ngIf="selectedFood">
-        <mat-expansion-panel class="food-panel">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              {{selectedFood.description}}
-            </mat-panel-title>
-          </mat-expansion-panel-header>
+      <div class="food-details" *ngIf="selectedFood">
+        <h2 class="food-title">{{selectedFood.description}}</h2>
 
-          <div class="panel-content">
-            <div class="nutrition-section">
-              <div class="main-nutrients">
-                <div class="header-actions">
-                  <button mat-button 
-                          class="all-nutrients-btn"
-                          (click)="showAllNutrients()">
-                      <span fxHide.lt-md>{{showingAllNutrients ? 'Shrink ^' : 'Show All Nutrients'}}</span>
-                      <span fxShow.lt-md>{{showingAllNutrients ? 'Shrink ^' : 'Show all'}}</span>
-                  </button>
-                </div>
+        <div class="panel-content">
+          <div class="nutrition-section">
+            <div class="main-nutrients">
+              <div class="header-actions">
+                <button mat-button 
+                        class="all-nutrients-btn"
+                        (click)="showAllNutrients()">
+                  {{showingAllNutrients ? 'Hide Nutrients' : 'Show All Nutrients'}}
+                </button>
+              </div>
 
                 <!-- Responsive table wrapper -->
                 <div class="table-responsive">
@@ -310,8 +304,8 @@
             (imagesUploaded)="onImagesUploaded($event)"
             (refreshFood)="onRefreshFood()">
           </app-image-upload>
-        </mat-expansion-panel>
-      </mat-accordion>
+        </div>
+      </div>
     </div>
   </div>
 </div>
