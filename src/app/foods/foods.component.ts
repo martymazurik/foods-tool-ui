@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FoodsApiService } from '../services/foods-api.service';
-import { debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 
 interface SimplifiedNutrient {
@@ -26,7 +25,9 @@ interface ImageUploadResponse {
 })
 export class FoodsComponent implements OnInit {
   searchControl = new FormControl('');
-  currentFood: any = null;
+  foods: any[] = [];  // NEW: Array of all search results
+  selectedFood: any = null;  // RENAMED from currentFood
+  selectedIndex: number = 0;  // NEW: Track selected item
   isLoading = false;
   displayedColumns: string[] = ['label', 'value', 'unit'];
   showingAllNutrients = false;
@@ -49,25 +50,49 @@ export class FoodsComponent implements OnInit {
     this.isLoading = true;
     this.foodsService.searchFoods(query).subscribe({
       next: (results) => {
-        this.currentFood = results;
+        // Handle array response
+        this.foods = Array.isArray(results) ? results : [results];
+        
+        // Auto-select first item
+        if (this.foods.length > 0) {
+          this.selectedIndex = 0;
+          this.selectedFood = this.foods[0];
+        } else {
+          this.selectedFood = null;
+          this.selectedIndex = -1;
+        }
         
         // Debug logging
-        console.log('Full API response:', results);
-        console.log('brandInfo exists:', !!results.brandInfo);
-        console.log('nutritionSiteCandidates:', results.brandInfo?.nutritionSiteCandidates);
-        console.log('productImageSiteCandidates:', results.brandInfo?.productImageSiteCandidates);
-        console.log('hasBrandInfo result:', this.hasBrandInfo(results));
+        console.log('API returned foods:', this.foods.length);
+        console.log('Selected food:', this.selectedFood?.description);
         
         this.isLoading = false;
       },
       error: (error: HttpErrorResponse) => {
         this.isLoading = false;
+        this.foods = [];
+        this.selectedFood = null;
         this.handleError(error, 'Failed to search foods');
       }
     });
   }
 
-  // NEW: Error handler with toast notifications
+  // NEW: Handle food selection from list
+  onFoodSelected(index: number) {
+    if (index >= 0 && index < this.foods.length) {
+      this.selectedIndex = index;
+      this.selectedFood = this.foods[index];
+      console.log('Selected:', this.selectedFood.description);
+    }
+  }
+
+  // NEW: Truncate description for list display
+  truncateDescription(description: string, maxLength: number = 40): string {
+    if (description.length <= maxLength) return description;
+    return description.substring(0, maxLength - 3) + '...';
+  }
+
+  // Error handler with toast notifications
   private handleError(error: HttpErrorResponse, context: string) {
     let message = '';
     
@@ -89,7 +114,7 @@ export class FoodsComponent implements OnInit {
     console.error('API Error:', error);
   }
 
-  // NEW: Show error toast with close button
+  // Show error toast with close button
   private showErrorToast(message: string) {
     this.snackBar.open(message, 'Close', {
       duration: 10000,
@@ -99,9 +124,8 @@ export class FoodsComponent implements OnInit {
     });
   }
 
-  // UPDATED - work with nutritionFacts structure from API
+  // Work with nutritionFacts structure from API
   public getNutrients(food: any): SimplifiedNutrient[] {
-    // Check if nutritionFacts exists
     if (!food?.nutritionFacts) {
       return [];
     }
@@ -109,7 +133,6 @@ export class FoodsComponent implements OnInit {
     const nf = food.nutritionFacts;
     const nutrients: SimplifiedNutrient[] = [];
 
-    // Extract nutrients directly from nutritionFacts object
     if (typeof nf.calories === 'number') {
       nutrients.push({
         label: 'Calories',
@@ -142,27 +165,24 @@ export class FoodsComponent implements OnInit {
       });
     }
 
-    // Sort in desired order
     const order = ['Calories', 'Protein', 'Carbs', 'Fat'];
     return nutrients.sort((a, b) => 
       order.indexOf(a.label) - order.indexOf(b.label)
     );
   }
 
-  // SIMPLIFIED - no index needed for single food
   showAllNutrients() {
     this.showingAllNutrients = !this.showingAllNutrients;
   }
 
-  // ADDED: Helper method for URI list component
+  // Helper method for URI list component
   hasBrandInfo(food: any): boolean {
     return this.foodsService.hasBrandLinks(food);
   }
 
-  // UPDATED: Image upload event handlers with error handling
+  // Image upload event handlers
   onImagesUploaded(response: ImageUploadResponse) {
     console.log('Images uploaded successfully:', response);
-    // Refresh the food data after upload
     this.refreshCurrentFood();
   }
 
@@ -172,10 +192,10 @@ export class FoodsComponent implements OnInit {
 
   private refreshCurrentFood() {
     const query = this.searchControl.value?.trim();
-    if (query && this.currentFood) {
+    if (query && this.selectedFood) {
       this.foodsService.refreshFood(query).subscribe({
         next: (updatedFood) => {
-          this.currentFood = updatedFood;
+          this.selectedFood = updatedFood;
           console.log('Food data refreshed:', updatedFood);
         },
         error: (error: HttpErrorResponse) => {
@@ -185,42 +205,41 @@ export class FoodsComponent implements OnInit {
     }
   }
 
-  // NEW: Getters for image upload component
+  // Getters for image upload component
   get currentFoodQuery(): string {
     return this.searchControl.value?.trim() || '';
   }
 
-  // NEW: Getters for image upload component - always return null to keep upload areas empty
   get existingNutritionImageId(): string | null {
-    return null; // Always show empty drag-and-drop area
+    return null;
   }
 
   get existingProductImageId(): string | null {
-    return null; // Always show empty drag-and-drop area
+    return null;
   }
 
   get nutritionFactsStatus(): string | null {
-    return this.currentFood?.nutritionFactsStatus || null;
+    return this.selectedFood?.nutritionFactsStatus || null;
   }
 
-  // NEW: Image URL methods
+  // Image URL methods
   public nutritionImageUrl(): string | null {
-    return this.currentFood?.nutritionFactsImage ? 
-      this.foodsService.getImageUrl(this.currentFood.nutritionFactsImage) : null;
+    return this.selectedFood?.nutritionFactsImage ? 
+      this.foodsService.getImageUrl(this.selectedFood.nutritionFactsImage) : null;
   }
 
   public productImageUrl(): string | null {
-    return this.currentFood?.foodImage ? 
-      this.foodsService.getImageUrl(this.currentFood.foodImage) : null;
+    return this.selectedFood?.foodImage ? 
+      this.foodsService.getImageUrl(this.selectedFood.foodImage) : null;
   }
 
-  // NEW: Helper methods to check if images exist
+  // Helper methods to check if images exist
   hasNutritionImage(): boolean {
-    return !!(this.currentFood?.nutritionFactsImage);
+    return !!(this.selectedFood?.nutritionFactsImage);
   }
 
   hasProductImage(): boolean {
-    return !!(this.currentFood?.foodImage);
+    return !!(this.selectedFood?.foodImage);
   }
 
   hasAnyImages(): boolean {
