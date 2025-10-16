@@ -50,21 +50,25 @@ export class FoodsComponent implements OnInit {
     this.isLoading = true;
     this.foodsService.searchFoods(query).subscribe({
       next: (results) => {
+        console.log('RAW API RESPONSE:', results);
+        console.log('Is array?', Array.isArray(results));
+        
         // Handle array response
         this.foods = Array.isArray(results) ? results : [results];
+        
+        console.log('foods array:', this.foods);
+        console.log('foods.length:', this.foods.length);
         
         // Auto-select first item
         if (this.foods.length > 0) {
           this.selectedIndex = 0;
           this.selectedFood = this.foods[0];
+          console.log('Selected first food:', this.selectedFood);
         } else {
           this.selectedFood = null;
           this.selectedIndex = -1;
+          console.log('No foods to select');
         }
-        
-        // Debug logging
-        console.log('API returned foods:', this.foods.length);
-        console.log('Selected food:', this.selectedFood?.description);
         
         this.isLoading = false;
       },
@@ -88,6 +92,7 @@ export class FoodsComponent implements OnInit {
 
   // NEW: Truncate description for list display
   truncateDescription(description: string, maxLength: number = 40): string {
+    if (!description) return '';
     if (description.length <= maxLength) return description;
     return description.substring(0, maxLength - 3) + '...';
   }
