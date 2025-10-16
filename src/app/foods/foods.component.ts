@@ -200,14 +200,22 @@ export class FoodsComponent implements OnInit {
     return 'per 100g';
   }
 
-  // NEW: Get serving size display for per-serving mode
-  getServingSizeDisplay(): string {
-    return this.selectedFood?.nutritionFacts?.servingSizeHousehold || '';
+  // NEW: Get serving count for display
+  getServingCount(): string {
+    if (!this.selectedFood?.nutritionFacts?.servingSizeG) return '1';
+    
+    if (this.showPerServing) {
+      return '1';
+    } else {
+      // Per 100g mode: calculate how many servings in 100g
+      const servingsIn100g = 100 / this.selectedFood.nutritionFacts.servingSizeG;
+      return servingsIn100g.toFixed(1);
+    }
   }
 
-  // NEW: Should show serving size info
-  shouldShowServingSize(): boolean {
-    return this.showPerServing && !!this.getServingSizeDisplay();
+  // NEW: Get label for serving count
+  getServingLabel(): string {
+    return this.showPerServing ? 'serving size:' : 'servings:';
   }
 
   // NEW: Calculate nutrient value based on display mode
