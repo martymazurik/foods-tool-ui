@@ -17,8 +17,10 @@
     
     <!-- Left sidebar: Results list -->
     <div class="results-sidebar">
-      <mat-selection-list [multiple]="false" 
-                          (selectionChange)="onFoodSelected($event.options[0].value)">
+      <mat-selection-list #foodList
+                          [multiple]="false" 
+                          (selectionChange)="onFoodSelected($event.options[0]?.value)"
+                          (keydown)="onListKeydown($event, foodList)">
         <mat-list-option *ngFor="let food of foods; let i = index" 
                          [value]="i"
                          [selected]="i === selectedIndex"

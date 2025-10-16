@@ -96,6 +96,23 @@ export class FoodsComponent implements OnInit {
     }
   }
 
+  // NEW: Handle keyboard navigation in the list
+  onListKeydown(event: KeyboardEvent, foodList: any) {
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      // Let Material handle the visual selection
+      setTimeout(() => {
+        // Then sync our selection state
+        const selectedOptions = foodList.selectedOptions.selected;
+        if (selectedOptions.length > 0) {
+          const newIndex = selectedOptions[0].value;
+          if (newIndex !== this.selectedIndex) {
+            this.onFoodSelected(newIndex);
+          }
+        }
+      }, 0);
+    }
+  }
+
   // NEW: Truncate description for list display
   truncateDescription(description: string, maxLength: number = 40): string {
     if (!description) return '';
