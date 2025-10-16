@@ -51,10 +51,15 @@ export class FoodsComponent implements OnInit {
     this.foodsService.searchFoods(query).subscribe({
       next: (results) => {
         console.log('RAW API RESPONSE:', results);
-        console.log('Is array?', Array.isArray(results));
         
-        // Handle array response
-        this.foods = Array.isArray(results) ? results : [results];
+        // API returns {count: number, foods: array} - extract the foods array
+        if (results && results.foods && Array.isArray(results.foods)) {
+          this.foods = results.foods;
+        } else if (Array.isArray(results)) {
+          this.foods = results;
+        } else {
+          this.foods = [results];
+        }
         
         console.log('foods array:', this.foods);
         console.log('foods.length:', this.foods.length);
@@ -63,7 +68,7 @@ export class FoodsComponent implements OnInit {
         if (this.foods.length > 0) {
           this.selectedIndex = 0;
           this.selectedFood = this.foods[0];
-          console.log('Selected first food:', this.selectedFood);
+          console.log('Selected first food:', this.selectedFood?.description);
         } else {
           this.selectedFood = null;
           this.selectedIndex = -1;
