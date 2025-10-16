@@ -98,18 +98,18 @@ export class FoodsComponent implements OnInit {
 
   // NEW: Handle keyboard navigation in the list
   onListKeydown(event: KeyboardEvent, foodList: any) {
-    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-      // Let Material handle the visual selection
-      setTimeout(() => {
-        // Then sync our selection state
-        const selectedOptions = foodList.selectedOptions.selected;
-        if (selectedOptions.length > 0) {
-          const newIndex = selectedOptions[0].value;
-          if (newIndex !== this.selectedIndex) {
-            this.onFoodSelected(newIndex);
-          }
-        }
-      }, 0);
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      const newIndex = Math.min(this.selectedIndex + 1, this.foods.length - 1);
+      if (newIndex !== this.selectedIndex) {
+        this.onFoodSelected(newIndex);
+      }
+    } else if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      const newIndex = Math.max(this.selectedIndex - 1, 0);
+      if (newIndex !== this.selectedIndex) {
+        this.onFoodSelected(newIndex);
+      }
     }
   }
 
