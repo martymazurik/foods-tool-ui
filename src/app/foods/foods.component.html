@@ -288,23 +288,22 @@
             </div>
           </div>
 
-          <!-- URI List Component -->
-          <app-uri-list 
-            *ngIf="hasBrandInfo(selectedFood)"
-            [nutritionSiteCandidates]="selectedFood.brandInfo?.nutritionSiteCandidates || []"
-            [productImageSiteCandidates]="selectedFood.brandInfo?.productImageSiteCandidates || []">
-          </app-uri-list>
+        <!-- URI List Component -->
+        <app-uri-list 
+          *ngIf="hasBrandInfo(selectedFood)"
+          [nutritionSiteCandidates]="selectedFood.brandInfo?.nutritionSiteCandidates || []"
+          [productImageSiteCandidates]="selectedFood.brandInfo?.productImageSiteCandidates || []">
+        </app-uri-list>
 
-          <!-- Image Upload Component -->
-          <app-image-upload 
-            [foodQuery]="currentFoodQuery"
-            [existingNutritionImageId]="existingNutritionImageId"
-            [existingProductImageId]="existingProductImageId"
-            [nutritionFactsStatus]="nutritionFactsStatus"
-            (imagesUploaded)="onImagesUploaded($event)"
-            (refreshFood)="onRefreshFood()">
-          </app-image-upload>
-        </div>
+        <!-- Image Upload Component -->
+        <app-image-upload 
+          [foodQuery]="currentFoodQuery"
+          [existingNutritionImageId]="existingNutritionImageId"
+          [existingProductImageId]="existingProductImageId"
+          [nutritionFactsStatus]="nutritionFactsStatus"
+          (imagesUploaded)="onImagesUploaded($event)"
+          (refreshFood)="onRefreshFood()">
+        </app-image-upload>
       </div>
     </div>
   </div>
