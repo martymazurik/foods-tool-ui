@@ -143,10 +143,13 @@ export class FoodsComponent implements OnInit {
     const nf = food.nutritionFacts;
     const nutrients: SimplifiedNutrient[] = [];
 
+    // Apply servingSizeMultiplicand to normalize to 100g
+    const multiplier = food.servingSizeMultiplicand || 1;
+
     if (typeof nf.calories === 'number') {
       nutrients.push({
         label: 'Calories',
-        value: Math.round(nf.calories),
+        value: Math.round(nf.calories * multiplier),
         unit: 'kcal'
       });
     }
@@ -154,7 +157,7 @@ export class FoodsComponent implements OnInit {
     if (typeof nf.proteinG === 'number') {
       nutrients.push({
         label: 'Protein',
-        value: Math.round(nf.proteinG * 10) / 10,
+        value: Math.round(nf.proteinG * multiplier * 10) / 10,
         unit: 'g'
       });
     }
@@ -162,7 +165,7 @@ export class FoodsComponent implements OnInit {
     if (typeof nf.totalCarbohydrateG === 'number') {
       nutrients.push({
         label: 'Carbs',
-        value: Math.round(nf.totalCarbohydrateG * 10) / 10,
+        value: Math.round(nf.totalCarbohydrateG * multiplier * 10) / 10,
         unit: 'g'
       });
     }
@@ -170,7 +173,7 @@ export class FoodsComponent implements OnInit {
     if (typeof nf.totalFatG === 'number') {
       nutrients.push({
         label: 'Fat',
-        value: Math.round(nf.totalFatG * 10) / 10,
+        value: Math.round(nf.totalFatG * multiplier * 10) / 10,
         unit: 'g'
       });
     }

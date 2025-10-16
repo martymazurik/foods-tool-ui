@@ -72,15 +72,6 @@ $tablet-breakpoint: 1024px;
       height: 36px;     // Reduced height per item
       border-bottom: 1px solid #f0f0f0;
       
-      // Remove the checkbox/bullet styling
-      ::ng-deep .mdc-list-item__start {
-        display: none !important;
-      }
-      
-      ::ng-deep .mdc-list-item__content {
-        padding-left: 12px !important;
-      }
-      
       &:hover {
         background-color: #f5f5f5;
       }
@@ -95,6 +86,20 @@ $tablet-breakpoint: 1024px;
       &:last-child {
         border-bottom: none;
       }
+    }
+  }
+
+  // Remove checkboxes/radio buttons from list
+  ::ng-deep mat-list-option {
+    .mdc-list-item__start,
+    .mdc-radio,
+    .mdc-checkbox,
+    mat-pseudo-checkbox {
+      display: none !important;
+    }
+
+    .mdc-list-item__content {
+      padding-left: 16px !important;
     }
   }
 }
