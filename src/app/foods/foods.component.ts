@@ -31,6 +31,7 @@ export class FoodsComponent implements OnInit {
   isLoading = false;
   displayedColumns: string[] = ['label', 'value', 'unit'];
   showingAllNutrients = false;
+  showPerServing = true;  // NEW: Toggle for per-serving vs per-100g (default: per serving, sticky)
 
   constructor(
     private foodsService: FoodsApiService,
@@ -143,29 +144,14 @@ export class FoodsComponent implements OnInit {
     const nf = food.nutritionFacts;
     const nutrients: SimplifiedNutrient[] = [];
 
-    // Apply servingSizeMultiplicand to normalize to 100g
-    const multiplier = food.servingSizeMultiplicand || 1;
+    // Determine multiplier based on display mode
+    const multiplier = this.showPerServing ? (food.servingSizeMultiplicand || 1) : 1;
 
-    if (typeof nf.calories === 'number') {
-      nutrients.push({
-        label: 'Calories',
-        value: Math.round(nf.calories * multiplier),
-        unit: 'kcal'
-      });
-    }
-
+    // Reordered: Protein, Fat, Carbs, Calories
     if (typeof nf.proteinG === 'number') {
       nutrients.push({
         label: 'Protein',
         value: Math.round(nf.proteinG * multiplier * 10) / 10,
-        unit: 'g'
-      });
-    }
-
-    if (typeof nf.totalCarbohydrateG === 'number') {
-      nutrients.push({
-        label: 'Carbs',
-        value: Math.round(nf.totalCarbohydrateG * multiplier * 10) / 10,
         unit: 'g'
       });
     }
@@ -178,14 +164,57 @@ export class FoodsComponent implements OnInit {
       });
     }
 
-    const order = ['Calories', 'Protein', 'Carbs', 'Fat'];
-    return nutrients.sort((a, b) => 
-      order.indexOf(a.label) - order.indexOf(b.label)
-    );
+    if (typeof nf.totalCarbohydrateG === 'number') {
+      nutrients.push({
+        label: 'Carbs',
+        value: Math.round(nf.totalCarbohydrateG * multiplier * 10) / 10,
+        unit: 'g'
+      });
+    }
+
+    if (typeof nf.calories === 'number') {
+      nutrients.push({
+        label: 'Calories',
+        value: Math.round(nf.calories * multiplier),
+        unit: 'kcal'
+      });
+    }
+
+    return nutrients;
   }
 
   showAllNutrients() {
     this.showingAllNutrients = !this.showingAllNutrients;
+  }
+
+  // NEW: Toggle between per-serving and per-100g display
+  toggleServingMode() {
+    this.showPerServing = !this.showPerServing;
+  }
+
+  // NEW: Get current display unit for footer
+  getDisplayUnit(): string {
+    if (this.showPerServing && this.selectedFood?.nutritionFacts?.servingSizeG) {
+      return `per ${Math.round(this.selectedFood.nutritionFacts.servingSizeG)}g`;
+    }
+    return 'per 100g';
+  }
+
+  // NEW: Get serving size display for per-serving mode
+  getServingSizeDisplay(): string {
+    return this.selectedFood?.nutritionFacts?.servingSizeHousehold || '';
+  }
+
+  // NEW: Should show serving size info
+  shouldShowServingSize(): boolean {
+    return this.showPerServing && !!this.getServingSizeDisplay();
+  }
+
+  // NEW: Calculate nutrient value based on display mode
+  public calculateNutrientValue(value: number): number {
+    if (!this.selectedFood) return value;
+    const multiplier = this.showPerServing ? (this.selectedFood.servingSizeMultiplicand || 1) : 1;
+    return Math.round(value * multiplier * 10) / 10;
   }
 
   // Helper method for URI list component
