@@ -31,3 +31,30 @@ html, body {
   min-height: auto !important;
   height: auto !important;
 }
+
+// Snackbar styles
+.info-snackbar {
+  background-color: #ffd740 !important; // Yellow background
+  color: #212121 !important; // Dark contrasting text
+
+  .mat-simple-snackbar {
+    color: #212121 !important;
+  }
+
+  .mat-simple-snack-bar-content {
+    color: #212121 !important;
+    font-weight: 500;
+  }
+
+  button {
+    color: #212121 !important;
+    font-weight: 600;
+  }
+}
+
+// Position snackbar inside toolbar
+.mat-snack-bar-container {
+  &.info-snackbar {
+    margin-top: 10px !important; // Position within toolbar area
+  }
+}

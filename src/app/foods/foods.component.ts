@@ -52,7 +52,7 @@ export class FoodsComponent implements OnInit {
     this.foodsService.searchFoods(query).subscribe({
       next: (results) => {
         console.log('RAW API RESPONSE:', results);
-        
+
         // API returns {count: number, foods: array} - extract the foods array
         if (results && results.foods && Array.isArray(results.foods)) {
           this.foods = results.foods;
@@ -61,10 +61,20 @@ export class FoodsComponent implements OnInit {
         } else {
           this.foods = [results];
         }
-        
+
         console.log('foods array:', this.foods);
         console.log('foods.length:', this.foods.length);
-        
+
+        // Check if no foods were found and show snackbar
+        if (results && typeof results.count === 'number' && results.count === 0) {
+          this.snackBar.open(`No foods found. Count: ${results.count}`, '✕', {
+            duration: 10000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: ['info-snackbar']
+          });
+        }
+
         // Auto-select first item
         if (this.foods.length > 0) {
           this.selectedIndex = 0;
@@ -75,7 +85,7 @@ export class FoodsComponent implements OnInit {
           this.selectedIndex = -1;
           console.log('No foods to select');
         }
-        
+
         this.isLoading = false;
       },
       error: (error: HttpErrorResponse) => {
