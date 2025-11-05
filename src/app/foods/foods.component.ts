@@ -25,6 +25,7 @@ interface ImageUploadResponse {
 })
 export class FoodsComponent implements OnInit {
   searchControl = new FormControl('');
+  limitControl = new FormControl(50);  // NEW: Default to 50 results
   foods: any[] = [];  // NEW: Array of all search results
   selectedFood: any = null;  // RENAMED from currentFood
   selectedIndex: number = 0;  // NEW: Track selected item
@@ -48,8 +49,10 @@ export class FoodsComponent implements OnInit {
       return;
     }
 
+    const limit = this.limitControl.value ?? 50;
+
     this.isLoading = true;
-    this.foodsService.searchFoods(query).subscribe({
+    this.foodsService.searchFoods(query, limit).subscribe({
       next: (results) => {
         console.log('RAW API RESPONSE:', results);
 

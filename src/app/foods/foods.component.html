@@ -1,16 +1,29 @@
 <div class="foods-container">
-  <!-- Search box stays full-width at top -->
-  <mat-form-field appearance="fill" class="search-field">
-    <mat-label>Search Foods</mat-label>
-    <input matInput 
-           [formControl]="searchControl" 
-           (keyup.enter)="performSearch()"
-           placeholder="Enter food name and press Enter...">
-    <mat-spinner *ngIf="isLoading" 
-                 matSuffix 
-                 diameter="20">
-    </mat-spinner>
-  </mat-form-field>
+  <!-- Search box and limit control - horizontal layout -->
+  <div class="search-controls">
+    <mat-form-field appearance="fill" class="search-field">
+      <mat-label>Search Foods</mat-label>
+      <input matInput
+             [formControl]="searchControl"
+             (keyup.enter)="performSearch()"
+             placeholder="Enter food name and press Enter...">
+      <mat-spinner *ngIf="isLoading"
+                   matSuffix
+                   diameter="20">
+      </mat-spinner>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="limit-field">
+      <mat-label>Result count:</mat-label>
+      <input matInput
+             type="number"
+             [formControl]="limitControl"
+             (keyup.enter)="performSearch()"
+             placeholder="50"
+             min="1"
+             max="200">
+    </mat-form-field>
+  </div>
 
   <!-- NEW: Split layout with results list on left, details on right -->
   <div class="results-layout" *ngIf="foods.length > 0">

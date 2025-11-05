@@ -20,8 +20,12 @@ export class FoodsApiService {
 
   constructor(private http: HttpClient) { }
 
-  searchFoods(query: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/foods/search?query=${encodeURIComponent(query)}`);
+  searchFoods(query: string, limit?: number): Observable<any> {
+    let url = `${this.baseUrl}/foods/search?query=${encodeURIComponent(query)}`;
+    if (limit !== undefined && limit !== null) {
+      url += `&limit=${limit}`;
+    }
+    return this.http.get<any>(url);
   }
 
   // Added refresh method for image upload component
