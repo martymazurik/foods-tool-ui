@@ -32,29 +32,38 @@ html, body {
   height: auto !important;
 }
 
-// Snackbar styles
-.info-snackbar {
-  background-color: #ffd740 !important; // Yellow background
-  color: #212121 !important; // Dark contrasting text
-
-  .mat-simple-snackbar {
-    color: #212121 !important;
-  }
-
-  .mat-simple-snack-bar-content {
-    color: #212121 !important;
-    font-weight: 500;
-  }
-
-  button {
-    color: #212121 !important;
-    font-weight: 600;
-  }
-}
-
-// Position snackbar inside toolbar
-.mat-snack-bar-container {
+// Snackbar styles - use ::ng-deep to penetrate Angular Material's encapsulation
+::ng-deep .mat-mdc-snack-bar-container {
   &.info-snackbar {
+    --mdc-snackbar-container-color: #ffd740 !important;
+    --mdc-snackbar-supporting-text-color: #212121 !important;
+    --mat-snack-bar-button-color: #212121 !important;
+
+    background-color: #ffd740 !important;
     margin-top: 10px !important; // Position within toolbar area
+
+    .mat-mdc-snack-bar-label {
+      color: #212121 !important;
+      font-weight: 500;
+    }
+
+    .mat-mdc-button {
+      color: #212121 !important;
+      font-weight: 600;
+
+      .mat-mdc-button-touch-target {
+        height: 100%;
+      }
+    }
+
+    // Legacy support for older Material versions
+    .mat-simple-snackbar {
+      color: #212121 !important;
+    }
+
+    .mat-simple-snack-bar-content {
+      color: #212121 !important;
+      font-weight: 500;
+    }
   }
 }

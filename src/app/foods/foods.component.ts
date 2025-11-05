@@ -68,9 +68,13 @@ export class FoodsComponent implements OnInit {
         console.log('foods array:', this.foods);
         console.log('foods.length:', this.foods.length);
 
-        // Check if no foods were found and show snackbar
-        if (results && typeof results.count === 'number' && results.count === 0) {
-          this.snackBar.open(`No foods found. Count: ${results.count}`, '✕', {
+        // Show snackbar with return count
+        if (results && typeof results.count === 'number') {
+          const message = results.count === 0
+            ? `No foods found. Count: ${results.count}`
+            : `Foods returned: ${results.count}`;
+
+          this.snackBar.open(message, '✕', {
             duration: 10000,
             horizontalPosition: 'center',
             verticalPosition: 'top',
