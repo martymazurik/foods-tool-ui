@@ -1,10 +1,5 @@
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
-
-// ========================================
-// GLOBAL VARIABLES
-// ========================================
-$mobile-breakpoint: 768px;
-$tablet-breakpoint: 1024px;
+@import 'styles/variables';
 
 // ========================================
 // BASE STYLES

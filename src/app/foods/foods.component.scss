@@ -1,5 +1,5 @@
-// Import global variables
-@import '../../styles.scss';
+// Import global variables only (not the entire stylesheet)
+@import '../../styles/variables';
 
 .foods-container {
   padding: 20px;
