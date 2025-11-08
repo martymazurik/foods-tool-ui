@@ -1,27 +1,5 @@
-// Add these variables at the top
-$mobile-breakpoint: 768px;
-$tablet-breakpoint: 1024px;
-
-// Error snackbar styling
-::ng-deep .error-snackbar {
-  .mat-simple-snack-bar-content {
-    color: white;
-    font-weight: 500;
-  }
-  
-  .mat-mdc-snack-bar-container {
-    background-color: #f44336;
-    color: white;
-    
-    .mat-mdc-button {
-      color: white;
-      
-      &:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-      }
-    }
-  }
-}
+// Import global variables
+@import '../../styles.scss';
 
 .foods-container {
   padding: 20px;

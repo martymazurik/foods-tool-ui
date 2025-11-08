@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(npm run build:*)",
+      "Bash(Select-String -Pattern \"budget|error|warning|exceeded|complete\" -Context 0,1)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -1,5 +1,14 @@
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
+// ========================================
+// GLOBAL VARIABLES
+// ========================================
+$mobile-breakpoint: 768px;
+$tablet-breakpoint: 1024px;
+
+// ========================================
+// BASE STYLES
+// ========================================
 html, body { 
   height: 100%; 
   margin: 0;
@@ -32,8 +41,12 @@ html, body {
   height: auto !important;
 }
 
-// Snackbar styles - use ::ng-deep to penetrate Angular Material's encapsulation
+// ========================================
+// SNACKBAR STYLES
+// ========================================
+// Use ::ng-deep to penetrate Angular Material's encapsulation
 ::ng-deep .mat-mdc-snack-bar-container {
+  // Info/Warning snackbar (yellow)
   &.info-snackbar {
     --mdc-snackbar-container-color: #ffd740 !important;
     --mdc-snackbar-supporting-text-color: #212121 !important;
@@ -64,6 +77,27 @@ html, body {
     .mat-simple-snack-bar-content {
       color: #212121 !important;
       font-weight: 500;
+    }
+  }
+
+  // Error snackbar (red)
+  &.error-snackbar {
+    .mat-simple-snack-bar-content {
+      color: white;
+      font-weight: 500;
+    }
+
+    .mat-mdc-snack-bar-container {
+      background-color: #f44336;
+      color: white;
+
+      .mat-mdc-button {
+        color: white;
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+      }
     }
   }
 }
