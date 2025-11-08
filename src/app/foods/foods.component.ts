@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FoodsApiService } from '../services/foods-api.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Food } from '../models/food.model';
 
 interface SimplifiedNutrient {
   label: string;
@@ -26,13 +27,17 @@ interface ImageUploadResponse {
 export class FoodsComponent implements OnInit {
   searchControl = new FormControl('');
   limitControl = new FormControl(50);  // NEW: Default to 50 results
-  foods: any[] = [];  // NEW: Array of all search results
-  selectedFood: any = null;  // RENAMED from currentFood
-  selectedIndex: number = 0;  // NEW: Track selected item
+  foods: Food[] = [];  // Array of all search results (typed as Food[])
+  selectedFood: Food | null = null;  // RENAMED from currentFood
+  selectedIndex: number = 0;  // Track selected item for detail view
+
+  // NEW: Multi-select state - tracks which foods are selected
+  selectedFoodIds: Set<number> = new Set<number>();  // Uses Set for O(1) lookup
+
   isLoading = false;
   displayedColumns: string[] = ['label', 'value', 'unit'];
   showingAllNutrients = false;
-  showPerServing = true;  // NEW: Toggle for per-serving vs per-100g (default: per serving, sticky)
+  showPerServing = true;  // Toggle for per-serving vs per-100g (default: per serving, sticky)
 
   constructor(
     private foodsService: FoodsApiService,
@@ -328,5 +333,127 @@ export class FoodsComponent implements OnInit {
 
   hasAnyImages(): boolean {
     return this.hasNutritionImage() || this.hasProductImage();
+  }
+
+  // ========================================
+  // MULTI-SELECT FUNCTIONALITY
+  // ========================================
+
+  /**
+   * Toggle selection state for a food item
+   * @param food - The food object to toggle
+   */
+  toggleFoodSelection(food: Food): void {
+    if (!food || !food.id) {
+      console.warn('Cannot select food without valid id:', food);
+      return;
+    }
+
+    if (this.selectedFoodIds.has(food.id)) {
+      this.selectedFoodIds.delete(food.id);
+      console.log(`Deselected food ID: ${food.id} - ${food.description}`);
+    } else {
+      this.selectedFoodIds.add(food.id);
+      console.log(`Selected food ID: ${food.id} - ${food.description}`);
+    }
+
+    console.log('Currently selected IDs:', Array.from(this.selectedFoodIds));
+  }
+
+  /**
+   * Check if a food item is currently selected
+   * @param food - The food object to check
+   * @returns true if the food is selected
+   */
+  isFoodSelected(food: Food): boolean {
+    return food && food.id ? this.selectedFoodIds.has(food.id) : false;
+  }
+
+  /**
+   * Get the count of selected foods
+   * @returns number of selected food items
+   */
+  getSelectedCount(): number {
+    return this.selectedFoodIds.size;
+  }
+
+  /**
+   * Get array of selected food IDs (ready to send to backend API)
+   * @returns Array of numeric food IDs
+   */
+  getSelectedFoodIds(): number[] {
+    return Array.from(this.selectedFoodIds);
+  }
+
+  /**
+   * Get full food objects for selected items
+   * @returns Array of Food objects that are currently selected
+   */
+  getSelectedFoods(): Food[] {
+    return this.foods.filter(food => this.selectedFoodIds.has(food.id));
+  }
+
+  /**
+   * Clear all selections
+   */
+  clearAllSelections(): void {
+    this.selectedFoodIds.clear();
+    console.log('All selections cleared');
+  }
+
+  /**
+   * Select all foods in the current search results
+   */
+  selectAllFoods(): void {
+    this.foods.forEach(food => {
+      if (food.id) {
+        this.selectedFoodIds.add(food.id);
+      }
+    });
+    console.log('Selected all foods. Total:', this.selectedFoodIds.size);
+  }
+
+  /**
+   * EXAMPLE: Send selected food IDs to backend API
+   * This demonstrates how you would use the selected IDs in an API call
+   */
+  submitSelectedFoods(): void {
+    const selectedIds = this.getSelectedFoodIds();
+
+    if (selectedIds.length === 0) {
+      this.snackBar.open('No foods selected', 'Close', {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top'
+      });
+      return;
+    }
+
+    console.log('Submitting food IDs to backend:', selectedIds);
+
+    // Example API call (uncomment and adjust endpoint as needed):
+    /*
+    this.http.post(`${this.apiUrl}/user/selected-foods`, {
+      foodIds: selectedIds  // Sends array like: [12345, 67890, 11111]
+    }).subscribe({
+      next: (response) => {
+        this.snackBar.open(`Successfully saved ${selectedIds.length} foods`, 'Close', {
+          duration: 3000
+        });
+        this.clearAllSelections();
+      },
+      error: (error) => {
+        this.handleError(error, 'Failed to save selected foods');
+      }
+    });
+    */
+
+    // For now, just show a success message
+    this.snackBar.open(`Ready to submit ${selectedIds.length} food IDs: ${selectedIds.join(', ')}`, 'Close', {
+      duration: 5000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      panelClass: ['info-snackbar']
+    });
   }
 }

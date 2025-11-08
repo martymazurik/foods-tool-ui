@@ -81,21 +81,52 @@ $tablet-breakpoint: 1024px;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 
   @media (max-width: $tablet-breakpoint) {
     width: 100%;
+  }
+
+  // Selection toolbar styling
+  .selection-toolbar {
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+    background: #f5f5f5;
+    border-bottom: 1px solid #e0e0e0;
+    flex-wrap: wrap;
+
+    @media (max-width: $mobile-breakpoint) {
+      padding: 8px;
+      gap: 6px;
+    }
+
+    button {
+      font-size: 12px;
+      padding: 6px 12px;
+      min-height: 32px;
+
+      @media (max-width: $mobile-breakpoint) {
+        font-size: 11px;
+        padding: 5px 10px;
+        min-height: 28px;
+      }
+    }
   }
 
   mat-selection-list {
     max-height: 600px;
     overflow-y: auto;
     padding: 0;
+    flex: 1;
 
     mat-list-option {
       font-size: 11px;  // Much smaller font
-      height: 36px;     // Reduced height per item
+      height: auto;     // Auto height for content
+      min-height: 40px;
       border-bottom: 1px solid #f0f0f0;
-      
+
       &:hover {
         background-color: #f5f5f5;
       }
@@ -104,7 +135,10 @@ $tablet-breakpoint: 1024px;
       &[aria-selected="true"] {
         background-color: #e3f2fd !important;
         border-left: 4px solid #1976d2;
-        font-weight: 500;
+
+        .food-description {
+          font-weight: 500;
+        }
       }
 
       &:last-child {
@@ -113,17 +147,40 @@ $tablet-breakpoint: 1024px;
     }
   }
 
-  // Remove checkboxes/radio buttons from list
+  // Style the food item content with checkbox
+  .food-item-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 4px 0;
+
+    .food-checkbox {
+      flex-shrink: 0;
+    }
+
+    .food-description {
+      flex: 1;
+      font-size: 12px;
+      line-height: 1.3;
+
+      @media (max-width: $mobile-breakpoint) {
+        font-size: 11px;
+      }
+    }
+  }
+
+  // Hide default Material checkbox from list selection
   ::ng-deep mat-list-option {
     .mdc-list-item__start,
     .mdc-radio,
-    .mdc-checkbox,
     mat-pseudo-checkbox {
       display: none !important;
     }
 
     .mdc-list-item__content {
       padding-left: 16px !important;
+      padding-right: 16px !important;
     }
   }
 }

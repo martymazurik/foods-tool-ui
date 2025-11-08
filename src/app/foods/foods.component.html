@@ -26,19 +26,55 @@
 
   <!-- NEW: Split layout with results list on left, details on right -->
   <div class="results-layout" *ngIf="foods.length > 0">
-    
-    <!-- Left sidebar: Results list -->
+
+    <!-- Left sidebar: Results list with selection controls -->
     <div class="results-sidebar">
+      <!-- Selection toolbar -->
+      <div class="selection-toolbar">
+        <button mat-stroked-button
+                color="primary"
+                (click)="selectAllFoods()"
+                [disabled]="foods.length === 0">
+          Select All
+        </button>
+        <button mat-stroked-button
+                (click)="clearAllSelections()"
+                [disabled]="getSelectedCount() === 0">
+          Clear All
+        </button>
+        <button mat-raised-button
+                color="accent"
+                (click)="submitSelectedFoods()"
+                [disabled]="getSelectedCount() === 0">
+          Submit ({{getSelectedCount()}})
+        </button>
+      </div>
+
+      <!-- Food list with checkboxes -->
       <mat-selection-list #foodList
-                          [multiple]="false" 
+                          [multiple]="false"
                           (selectionChange)="onFoodSelected($event.options[0]?.value)"
                           (keydown)="onListKeydown($event, foodList)">
-        <mat-list-option *ngFor="let food of foods; let i = index" 
+        <mat-list-option *ngFor="let food of foods; let i = index"
                          [value]="i"
                          [selected]="i === selectedIndex"
                          [matTooltip]="food?.description || ''"
-                         matTooltipPosition="right">
-          {{ truncateDescription(food?.description) }}
+                         matTooltipPosition="right"
+                         class="food-list-item">
+          <div class="food-item-content">
+            <!-- Checkbox for multi-select -->
+            <mat-checkbox
+              [checked]="isFoodSelected(food)"
+              (change)="toggleFoodSelection(food)"
+              (click)="$event.stopPropagation()"
+              color="primary"
+              class="food-checkbox">
+            </mat-checkbox>
+            <!-- Food description -->
+            <span class="food-description">
+              {{ truncateDescription(food?.description) }}
+            </span>
+          </div>
         </mat-list-option>
       </mat-selection-list>
     </div>

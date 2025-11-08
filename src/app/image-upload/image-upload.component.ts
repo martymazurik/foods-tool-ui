@@ -25,7 +25,7 @@ export class ImageUploadComponent implements OnInit {
   @Output() imagesUploaded = new EventEmitter<ImageUploadResponse>();
   @Output() refreshFood = new EventEmitter<void>();
 
-  private baseUrl = 'https://foodsapi.cloudcomputingassociates.net:4443/api/v1';
+  private baseUrl = 'https://foodsapi.cloudcomputingassociates.net/api/v1';
   
   // Upload states
   isUploading = false;
