@@ -62,6 +62,9 @@ import { ImageUploadComponent } from './image-upload/image-upload.component';
       clientId: environment.auth0.clientId,
       authorizationParams: {
         redirect_uri: environment.auth0.redirectUri
+      },
+      httpInterceptor: {
+        allowedList: []  // Empty array = don't attach tokens to any HTTP requests
       }
     })
   ],
